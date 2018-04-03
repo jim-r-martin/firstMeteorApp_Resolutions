@@ -1,0 +1,59 @@
+<head>
+  <title>resolutions</title>
+</head>
+
+<body>
+  <div class='container'>
+      <header>
+        <h1>Monthly Resolutions</h1>
+{{> loginButtons}}
+        <label class='hide-finished'>
+          <input type="checkbox" checked="{{hideFinished}}">
+          Hide Finished Resolutions
+        </label>
+        {{#if currentUser}}
+        <form class = 'new-resolution'>
+            <input type='text' name='title' placeholder='A new resolution' autocomplete="off">
+            <input type='submit' name='Submit'>
+        </form>
+        {{/if}}
+      </header>
+      <ul>
+        {{#if currentUser}}
+          {{#each resolutions}}
+            {{> resolution}}
+            {{#if add}}
+              <form class='new-sub-resolution'>
+                <input type='text' name='subTitle' placeholder='New step' autocomplete="off">
+                <input type='submit' name='submitSub'>
+              </form>
+            {{/if}}
+            {{/each}}
+        {{else}}
+          <u>Please Sign In</u>
+        {{/if}}
+      </ul>
+  </div>
+</body>
+
+<template name="resolution">
+  <li class='{{#if checked}}checked{{/if}}'>
+    {{#if isOwner}}
+    <input type='checkbox' checked='{{checked}}' class='toggle-checked'>
+      <button class='toggle-addition'>
+        {{#if add}}
+          Deselect
+        {{else}}
+          Add Step
+        {{/if}}
+      </button>
+      <button class='delete'>Remove</button>
+      <span class='text'>
+        {{title}}<br>
+        {{#if subTitle}}
+        - Steps to Completion: {{subTitle}}
+        {{/if}}
+      </span>
+      {{/if}}
+    </li>
+</template>
